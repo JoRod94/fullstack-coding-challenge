@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Stories{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link href="{{ url_for('static', filename='stories.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+  <h1>Hacker News Top Posts</h1>
+  {% for story in stories %}
+  <div class="row story">
+    {{ story.name }}
+  </div>
+  {% endfor %}
+{% endblock %}
