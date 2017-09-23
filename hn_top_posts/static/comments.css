@@ -1,0 +1,11 @@
+.comment-text {
+  background-color: #ededed;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 3px;
+  border-left: solid 2px black;
+}
+
+.post-title{
+  font-family: Roboto Mono
+}

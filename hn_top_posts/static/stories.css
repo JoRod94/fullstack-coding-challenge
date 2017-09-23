@@ -1,6 +1,6 @@
 .story {
-  border: solid 2px black;
   border-radius: 3px;
+  border: solid 2px black;
   margin-top: 15px;
 }
 
@@ -12,5 +12,5 @@
 }
 
 .story:hover {
-  background-color: #febb8e;
+  background-color: #dddddd;
 }

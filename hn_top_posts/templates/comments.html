@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}Comments{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link href="{{ url_for('static', filename='comments.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+  <h3 class="post-title">{{post.title}}</h3>
+  <a href={{post.url}}><ps>{{post.url}}</p></a>
+  {% for comment in comments %}
+  <div class="story row">
+    <div class="col-md-12 comment-text">
+      <p> {{ comment.text|safe }} </p>
+      {% for kid in comment.sub_comments recursive%}
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-11 comment-text">
+        <p>{{ kid.text|safe }}</p>
+        {{loop(kid.sub_comments)}}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  </a>
+  {% endfor %}
+{% endblock %}

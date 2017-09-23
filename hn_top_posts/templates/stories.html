@@ -5,9 +5,8 @@
   <link href="{{ url_for('static', filename='stories.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-  <h1>Hacker News Top Posts</h1>
   {% for story in stories %}
-  <a href="#">
+  <a href={{get_comments_url(story._id)}}>
     <div class="story row">
       <div class="col-md-1">
         <p class="story-info">{{ story.score }}</p>

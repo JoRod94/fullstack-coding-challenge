@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
 .main-content{
   width: 80%;
+}
+
+.app-title{
+  font-family: Roboto Mono;
+  text-decoration: underline;
+  color: black;
 }

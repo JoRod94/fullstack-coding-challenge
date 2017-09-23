@@ -8,3 +8,6 @@ start_updater()
 
 from hn_top_posts.controllers.stories import stories_page
 app.register_blueprint(stories_page)
+
+from hn_top_posts.controllers.comments import comments_page
+app.register_blueprint(comments_page)

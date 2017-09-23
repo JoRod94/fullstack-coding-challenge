@@ -26,7 +26,7 @@ def insert_top_story(story_id):
     write_result = db.stories.insert_one(story)
     if write_result.acknowledged and 'kids' in story:
         for kid_id in story['kids']:
-            threading.Thread(target=insert_comment, kwargs={'comment_id': kid_id}).start()
+            insert_comment(kid_id)
 
 def insert_comment(comment_id):
     comment = json.loads(requests.get(item_url+str(comment_id)+".json").content)
@@ -36,4 +36,4 @@ def insert_comment(comment_id):
     write_result = db.comments.insert_one(comment)
     if write_result.acknowledged and 'kids' in comment:
         for kid_id in comment['kids']:
-            threading.Thread(target=insert_comment, kwargs={'comment_id': kid_id}).start()
+            insert_comment(kid_id)
