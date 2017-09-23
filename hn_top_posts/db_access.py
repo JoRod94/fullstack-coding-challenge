@@ -1,6 +1,6 @@
 from pymongo import MongoClient
-from hn_top_posts.app import hn_top_posts
+from hn_top_posts.app import app
 
 def get_db():
-    db_client = MongoClient(hn_top_posts.config['DB_URI'])
-    return db_client[hn_top_posts.config['DB_NAME']]
+    db_client = MongoClient(app.config['DB_URI'])
+    return db_client[app.config['DB_NAME']]
