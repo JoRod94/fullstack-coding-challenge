@@ -1,0 +1,16 @@
+.story {
+  border: solid 2px black;
+  border-radius: 3px;
+  margin-top: 15px;
+}
+
+.story-info{
+  font-size: 13pt;
+  margin: 0 auto;
+  padding: 5px 0;
+  color: black;
+}
+
+.story:hover {
+  background-color: #febb8e;
+}

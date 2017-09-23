@@ -7,8 +7,21 @@
 {% block content %}
   <h1>Hacker News Top Posts</h1>
   {% for story in stories %}
-  <div class="row story">
-    {{ story.name }}
-  </div>
+  <a href="#">
+    <div class="story row">
+      <div class="col-md-1">
+        <p class="story-info">{{ story.score }}</p>
+      </div>
+      <div class="col-md-7">
+        <p class="story-info">{{ story.title }}</p>
+      </div>
+      <div class="col-md-2">
+        <p class="story-info">{{ story.by }}</p>
+      </div>
+      <div class="col-md-2">
+        <p class="story-info">{{ unixToReadable(story.time) }}</p>
+      </div>
+    </div>
+  </a>
   {% endfor %}
 {% endblock %}
