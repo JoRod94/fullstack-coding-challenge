@@ -8,11 +8,12 @@ item_url = 'https://hacker-news.firebaseio.com/v0/item/'
 
 def start_updater():
     s = sched.scheduler(time.time, time.sleep)
-    threading.Thread(target=update_top_posts, kwargs={'s':s}).start()
+    updater_thread = threading.Thread(target=update_top_posts, kwargs={'s':s})
+    updater_thread.start()
 
 def update_top_posts(s):
     top_ids = json.loads(requests.get(top_stories_url).content)
-    del top_ids[10:]
+    del top_ids[app.config['NR_POSTS']:]
     threads = []
     for story_id in top_ids:
         thread = threading.Thread(target=insert_top_story, kwargs={'story_id': story_id})

@@ -22,3 +22,6 @@ def delete_one(story_id):
             for kid_id in story['kids']:
                 comments.delete_one(kid_id)
         return db.stories.delete_one({'_id':story_id})
+
+def delete_all():
+    return db.stories.drop()

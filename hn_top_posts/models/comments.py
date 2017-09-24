@@ -40,3 +40,6 @@ def delete_one(comment_id):
             for kid_id in comment['kids']:
                 delete_one(kid_id)
         return db.comments.delete_one({'_id':comment_id})
+
+def delete_all():
+    return db.comments.drop()
