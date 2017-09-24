@@ -1,0 +1,9 @@
+.translations-table{
+  padding: 3px;
+}
+
+.translations-table-container{
+  border: 2px solid black;
+  border-radius: 3px;
+  width: 80%;
+}

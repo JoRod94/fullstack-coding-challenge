@@ -6,5 +6,5 @@ translations_page = Blueprint('translations_page', __name__, template_folder='..
 
 @translations_page.route('/translations')
 def show():
-    requested_translations = translations.get_translations()
-    return render_template('stories.html', translations=requested_translations, unixToReadable=unixToReadable)
+    requested_translations = sorted(translations.get_all(), key=lambda k: k['target_language'], reverse=True)
+    return render_template('translations.html', translations=requested_translations, unixToReadable=unixToReadable)

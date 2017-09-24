@@ -8,6 +8,7 @@
   font-family: Roboto Mono;
   text-decoration: underline;
   color: black;
+  display: inline-block;
 }
 
 .app-title:hover{

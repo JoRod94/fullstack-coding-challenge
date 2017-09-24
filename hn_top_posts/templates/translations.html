@@ -5,21 +5,26 @@
   <link href="{{ url_for('static', filename='translations.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-  <table class="table">
+<div class="translations-table-container">
+  <table class="table-condensed table-striped translations-table">
     <tr>
-      <th>Firstname</th>
-      <th>Lastname</th> 
-      <th>Age</th>
+      <th>Text</th>
+      <th>Translated Text</th>
+      <th>Target Language</th> 
+      <th>Status</th>
     </tr>
+    {% for translation in translations%}
     <tr>
-      <td>Jill</td>
-      <td>Smith</td> 
-      <td>50</td>
+      <th> {{translation.text}} </th>
+      {% if 'translatedText' in translation %}
+        <th> {{translation.translatedText}} </th>
+      {% else %}
+        <th> Unavailable </th>
+      {% endif %}
+      <th> {{translation.target_language}} </th>
+      <th> {{translation.status}} </th>
     </tr>
-    <tr>
-      <td>Eve</td>
-      <td>Jackson</td> 
-      <td>94</td>
-    </tr>
+    {% endfor %}
   </table>
+</div>
 {% endblock %}

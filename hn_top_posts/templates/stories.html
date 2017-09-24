@@ -5,14 +5,21 @@
   <link href="{{ url_for('static', filename='stories.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
+<a href={{url_for('translations_page.show')}} class="translation-status-button"> Translation Status </a>
   {% for story in stories %}
   <a href={{get_comments_url(story._id)}}>
     <div class="story row">
       <div class="col-md-1">
-        <p class="story-info">{{ story.score }}</p>
+        <div class="col-md-6">
+          <p class="story-info story-score">{{ story.score }}</p>
+        </div>
+        <div class="col-md-6 buttons-col">
+          <button href="#" class="translation-button"> {{lang_a}} &ensp; {{translate(story.translation_a)}}</button>
+          <button href="#" class="translation-button"> {{lang_b}} &ensp; {{translate(story.translation_b)}}</button>
+        </div>
       </div>
       <div class="col-md-7">
-        <p class="story-info">{{ story.title }}</p>
+        <p class="story-info story-title">{{ story.title }}</p>
       </div>
       <div class="col-md-2">
         <p class="story-info">{{ story.by }}</p>

@@ -17,4 +17,5 @@ def delete_one(translation_id):
         return db.translations.delete_one({'_id':translation_id})
 
 def delete_all():
-    return db.translations.drop()
+    for translation in get_all():
+        delete_one(translation['_id'])

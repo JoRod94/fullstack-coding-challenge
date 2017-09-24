@@ -42,4 +42,5 @@ def delete_one(comment_id):
         return db.comments.delete_one({'_id':comment_id})
 
 def delete_all():
-    return db.comments.drop()
+    for comment in get_all():
+        delete_one(comment['_id'])

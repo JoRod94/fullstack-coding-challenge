@@ -10,6 +10,9 @@ db = db_client[app.config['DB_NAME']]
 from hn_top_posts.post_updater import start_updater
 start_updater()
 
+from hn_top_posts.translation_manager import start_periodic_translation_checker
+start_periodic_translation_checker()
+
 from hn_top_posts.controllers.stories import stories_page
 app.register_blueprint(stories_page)
 

@@ -1,8 +1,6 @@
 from hn_top_posts.app import db
 from hn_top_posts.models import comments
-
-def get_top_stories():
-  return sorted(db.stories.find(), key=lambda k: k['score'], reverse=True)
+from hn_top_posts.models import translations
 
 def get(story_id):
     return db.stories.find_one({'_id':story_id})
@@ -21,7 +19,10 @@ def delete_one(story_id):
         if 'kids' in story:
             for kid_id in story['kids']:
                 comments.delete_one(kid_id)
+        translations.delete_one(story['translation_a'])
+        translations.delete_one(story['translation_b'])
         return db.stories.delete_one({'_id':story_id})
 
 def delete_all():
-    return db.stories.drop()
+    for story in get_all():
+        delete_one(story['_id'])

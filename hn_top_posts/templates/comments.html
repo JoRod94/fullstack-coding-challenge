@@ -7,24 +7,24 @@
 {% block content %}
   <h3 class="story-title">{{story.title}}</h3>
   <a href={{story.url}}><ps>{{story.url}}</p></a>
-  {% for comment in comments %}
-  <div class="story row">
-    <div class="col-md-12 comment-box">
-      <p class="comment-author"> {{ comment.by|safe}} -</p>
-      <p class="comment-time"> {{unixToReadable(comment.time)}} </p>
-      <p> {{ comment.text|safe }} </p>
-      {% for kid in comment.sub_comments recursive%}
-      <div class="col-md-1">
+    {% for comment in comments %}
+    <div class="story row">
+      <div class="col-md-12 comment-box">
+        <p class="comment-author"> {{ comment.by|safe}} -</p>
+        <p class="comment-time"> {{unixToReadable(comment.time)}} </p>
+        <p> {{ comment.text|safe }} </p>
+        {% for kid in comment.sub_comments recursive%}
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-11 comment-box">
+          <p class="comment-author"> {{ kid.by|safe}} -</p>
+          <p class="comment-time"> {{unixToReadable(kid.time)}} </p>
+          <p>{{ kid.text|safe }}</p>
+          {{loop(kid.sub_comments)}}
+        </div>
+        {% endfor %}
       </div>
-      <div class="col-md-11 comment-box">
-        <p class="comment-author"> {{ kid.by|safe}} -</p>
-        <p class="comment-time"> {{unixToReadable(kid.time)}} </p>
-        <p>{{ kid.text|safe }}</p>
-        {{loop(kid.sub_comments)}}
-      </div>
-      {% endfor %}
     </div>
-  </div>
-  </a>
+    </a>
   {% endfor %}
 {% endblock %}

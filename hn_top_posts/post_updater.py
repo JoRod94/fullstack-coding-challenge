@@ -2,6 +2,8 @@ import sched, time, json, threading, requests
 from hn_top_posts.app import app,db
 from hn_top_posts.models import stories
 from hn_top_posts.models import comments
+from hn_top_posts.translation_manager import request_translation
+from utils.id_correcter import id_correcter
 
 top_stories_url = 'https://hacker-news.firebaseio.com/v0/topstories.json'
 item_url = 'https://hacker-news.firebaseio.com/v0/item/'
@@ -12,6 +14,7 @@ def start_updater():
     updater_thread.start()
 
 def update_top_posts(s):
+    stories.delete_all()
     top_ids = json.loads(requests.get(top_stories_url).content)
     del top_ids[app.config['NR_POSTS']:]
     threads = []
@@ -22,21 +25,12 @@ def update_top_posts(s):
     for t in threads:
         t.join()
 
-    all_stories = stories.get_all()
-    for story in all_stories:
-        story_id = story['_id']
-        if story_id not in top_ids:
-            stories.delete_one(story_id)
-
     s.enter(app.config['POST_REFRESH_PERIOD'], 1, update_top_posts, kwargs={'s':s})
     s.run()
 
 def insert_top_story(story_id):
-    stories.delete_one(story_id)
     story = json.loads(requests.get(item_url+str(story_id)+".json").content)
-    #change id name to comply with mongoDB standards
-    story['_id'] = story['id']
-    del story['id']
+    story = id_correcter(story)
 
     #comments are inserted first to prevent showing the story comments page with incomplete comments
     threads = []
@@ -48,6 +42,8 @@ def insert_top_story(story_id):
     for t in threads:
         t.join()
 
+    story['translation_a'] = request_translation(story['title'], app.config['UNBABEL_TRANSLATION_LANG_A'])
+    story['translation_b'] = request_translation(story['title'], app.config['UNBABEL_TRANSLATION_LANG_B'])
     write_result = stories.insert_one(story)
 
     # Remove comments if story write was unsuccessful
@@ -58,9 +54,7 @@ def insert_top_story(story_id):
 
 def insert_comment(comment_id):
     comment = json.loads(requests.get(item_url+str(comment_id)+".json").content)
-    #change id name to comply with mongoDB standards
-    comment['_id'] = comment['id']
-    del comment['id']
+    comment = id_correcter(comment)
     write_result = comments.insert_one(comment)
     threads = []
     if write_result.acknowledged and 'kids' in comment:
