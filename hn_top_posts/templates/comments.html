@@ -5,8 +5,8 @@
   <link href="{{ url_for('static', filename='comments.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-  <h3 class="post-title">{{post.title}}</h3>
-  <a href={{post.url}}><ps>{{post.url}}</p></a>
+  <h3 class="story-title">{{story.title}}</h3>
+  <a href={{story.url}}><ps>{{story.url}}</p></a>
   {% for comment in comments %}
   <div class="story row">
     <div class="col-md-12 comment-text">

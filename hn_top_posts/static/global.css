@@ -9,3 +9,16 @@
   text-decoration: underline;
   color: black;
 }
+
+.app-title:hover{
+  color: #ff6600;
+}
+
+a {
+  color: #ff6600;
+}
+
+a:hover {
+  color: #ff6600;
+  text-decoration: underline;
+}

@@ -1,7 +1,11 @@
 from flask import Flask, Blueprint
+from pymongo import MongoClient
 
 app = Flask(__name__)
 app.config.from_envvar('HN_TOP_POSTS_SETTINGS')
+
+db_client = MongoClient(app.config['DB_URI'])
+db = db_client[app.config['DB_NAME']]
 
 from hn_top_posts.post_updater import start_updater
 start_updater()

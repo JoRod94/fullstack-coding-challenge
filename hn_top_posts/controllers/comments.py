@@ -1,33 +1,17 @@
 from flask import render_template, Blueprint, request
-from hn_top_posts.db_access import get_db
 from utils.time_tools import unixToReadable
 import threading
+from hn_top_posts.models import stories
+from hn_top_posts.models import comments
+from hn_top_posts.app import db
 
 comments_page = Blueprint('comments_page', __name__, template_folder='../templates')
 
-db = get_db()
-
 @comments_page.route('/comments')
-def show():
-    post_id = request.args.get('post_id', type=int)
-    post = db.stories.find_one({'_id':post_id})
-    comments = get_top_comments(post)
-    return render_template('comments.html', comments=comments, post=post, unixToReadable=unixToReadable)
-
-def get_top_comments(post):
-    top_comments = []
-    if 'kids' in post:
-        for comment_id in post['kids']:
-            top_comments.append(get_comment_tree(comment_id))
-    # ordered by time, since comment score is hidden
-    return sorted(top_comments, key=lambda k: k['time'])
-
-def get_comment_tree(comment_id):
-    comment = db.comments.find_one({'_id':comment_id})
-    sub_comments = []
-    if 'kids' in comment:
-        for kid_id in comment['kids']:
-            sub_comments.append(get_comment_tree(kid_id))
-    # ordered by time, since comment score is hidden
-    comment['sub_comments'] = sorted(sub_comments, key=lambda k: k['time'])
-    return comment
+def show(): 
+    story_id = request.args.get('story_id', type=int)
+    story = stories.get(story_id)
+    if story is None:
+        return "Story not found"
+    top_comments = comments.get_top_comments(story)
+    return render_template('comments.html', comments=top_comments, story=story, unixToReadable=unixToReadable)
