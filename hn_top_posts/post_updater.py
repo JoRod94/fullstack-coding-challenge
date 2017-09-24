@@ -21,6 +21,12 @@ def update_top_posts(s):
     for t in threads:
         t.join()
 
+    all_stories = stories.get_all()
+    for story in all_stories:
+        story_id = story['_id']
+        if story_id not in top_ids:
+            stories.delete_one(story_id)
+
     s.enter(app.config['POST_REFRESH_PERIOD'], 1, update_top_posts, kwargs={'s':s})
     s.run()
 

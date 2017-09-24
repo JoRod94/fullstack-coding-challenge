@@ -1,4 +1,4 @@
-.comment-text {
+.comment-box {
   background-color: #f4f4f4;
   margin: 5px;
   padding: 10px;
@@ -9,4 +9,16 @@
 
 .story-title{
   font-family: Roboto Mono
+}
+
+.comment-author{
+  font-size: 8pt;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.comment-time{
+  font-size: 8pt;
+  font-weight: bold;
+  display: inline-block;
 }

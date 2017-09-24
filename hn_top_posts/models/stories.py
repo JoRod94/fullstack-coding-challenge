@@ -7,6 +7,9 @@ def get_top_stories():
 def get(story_id):
     return db.stories.find_one({'_id':story_id})
 
+def get_all():
+    return db.stories.find()
+
 def insert_one(story):
     return db.stories.insert_one(story)
 
