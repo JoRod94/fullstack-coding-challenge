@@ -1,9 +1,14 @@
 .translations-table{
   padding: 3px;
+  width: 100%;
 }
 
 .translations-table-container{
   border: 2px solid black;
   border-radius: 3px;
   width: 80%;
+}
+
+.top-row{
+  text-decoration: underline;
 }
