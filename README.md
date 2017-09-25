@@ -1,3 +1,35 @@
+# Implementation Comments
+
+### Python 3.6.0 Required
+
+To set up this implementation, the following modules are required (recommended pip installation):
+
+- flask
+- pymongo
+- requests
+
+The app also requires a settings file, whose path is obtained from the `HN_TOP_POSTS_SETTINGS` environment variable, add using `export HN_TOP_POSTS_SETTINGS=/path/to/settings.py`.
+
+This file needs to have the following settings (sample values):
+
+~~~~ 
+DB_NAME = 'top_posts_db'
+DB_URI = 'mongodb://localhost:27017/'
+POST_REFRESH_PERIOD = 600 #seconds
+TRANSLATION_REFRESH_PERIOD = 5 #seconds
+NR_POSTS = 10
+UNBABEL_SANDBOX_USERNAME="<api_username>"
+UNBABEL_SANDBOX_KEY="<api_key>"
+UNBABEL_TRANSLATION_LANG_A="pt"
+UNBABEL_TRANSLATION_LANG_B="de"
+~~~~
+
+After starting a `mongod` process, run the app using `python run.py`. 
+
+Access the app at `http://localhost:5000`.
+
+
+
 # Unbabel Fullstack Challenge
 
 Hey :smile:
