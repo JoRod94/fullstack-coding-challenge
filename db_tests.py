@@ -86,5 +86,20 @@ class DBTestCase(unittest.TestCase):
 
         assert result
 
+    # Inserts the same story twice to test for Duplicate Key errors
+    def test_story_update(self):
+        print("Testing story database update...")
+
+        result = True
+        test_id = 397537
+        insert_top_story(test_id)
+
+        try:
+            insert_top_story(test_id)
+        except Error as e:
+            result = False
+
+        assert result
+
 if __name__ == '__main__':
     unittest.main()
