@@ -33,7 +33,7 @@ def update_top_posts(s):
     s.run()
 
 def insert_top_story(story_id):
-    new_story = json.loads(requests.get(item_url+str(story_id)+".json").content)
+    new_story = request_hn_item(story_id)
     new_story = id_correcter(new_story)
 
     current_story = stories.get(story_id)
@@ -64,7 +64,7 @@ def insert_top_story(story_id):
                 comments.delete_one(kid_id)
 
 def insert_comment(comment_id):
-    comment = json.loads(requests.get(item_url+str(comment_id)+".json").content)
+    comment = request_hn_item(comment_id)
     comment = id_correcter(comment)
     write_result = comments.insert_one(comment)
     threads = []
@@ -75,3 +75,6 @@ def insert_comment(comment_id):
             thread.start()
     for t in threads:
         t.join()
+
+def request_hn_item(item_id):
+    return json.loads(requests.get(item_url+str(item_id)+".json").content)

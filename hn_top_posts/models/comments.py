@@ -25,8 +25,10 @@ def get_comment_tree(comment_id):
     return comment
 
 def get(comment_id):
-    result = db.comments.find_one({'_id':comment_id})
     return db.comments.find_one({'_id':comment_id})
+
+def get_all():
+    return db.stories.find()
 
 def insert_one(comment):
     return db.comments.insert_one(comment)
