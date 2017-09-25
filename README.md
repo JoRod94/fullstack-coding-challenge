@@ -28,6 +28,8 @@ After starting a `mongod` process, run the app using `python run.py`.
 
 Access the app at `http://localhost:5000`.
 
+Test using `python view_tests.py` for view tests and `python db_tests.py` for database tests.
+
 
 
 # Unbabel Fullstack Challenge

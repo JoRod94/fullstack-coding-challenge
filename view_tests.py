@@ -18,18 +18,18 @@ class ShowTestCase(unittest.TestCase):
         app.testing = True
         self.app = app.test_client()
 
-    # asserts correct number of stories in stories page after 30 seconds
+    # asserts correct number of stories in stories page after 40 seconds
     def test_stories_show(self):
-        print("Testing correct number of stories after 30 seconds...")
-        time.sleep(30)
+        print("Testing correct number of stories after 40 seconds...")
+        time.sleep(40)
         rv = self.app.get('/')
         nr_stories = str(rv.data).count("class=\"story row\"")
         print("Comparison: ", nr_stories, "", app.config['NR_POSTS'])
         assert nr_stories == app.config['NR_POSTS']
 
-    # asserts correct number of comments for a story after 30 seconds
+    # asserts correct number of comments for a story after 40 seconds
     def test_story_comments_show(self):
-        print("Testing correct number of comments after 30 seconds...")
+        print("Testing correct number of comments after 40 seconds...")
         db_stories = stories.get_all()
         result = True
         for story in db_stories:
@@ -43,9 +43,9 @@ class ShowTestCase(unittest.TestCase):
                 break
         assert result
 
-    # asserts correct number of translations in translations page after 30 seconds
+    # asserts correct number of translations in translations page after 40 seconds
     def test_translations_show(self):
-        print("Testing correct number of translations after 30 seconds...")
+        print("Testing correct number of translations after 40 seconds...")
         rv = self.app.get('/translations')
         nr_translations = str(rv.data).count("<tr>")
         print("Comparison: ", nr_translations, "", app.config['NR_POSTS']*2 + 1)
