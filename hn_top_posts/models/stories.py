@@ -11,6 +11,17 @@ def get_all():
 def insert_one(story):
     return db.stories.insert_one(story)
 
+# useful for replace, more efficient translation management
+def delete_one_keep_translations(story_id):
+    story = get(story_id)
+    if story is None:
+        return None
+    else:
+        if 'kids' in story:
+            for kid_id in story['kids']:
+                comments.delete_one(kid_id)
+        return db.stories.delete_one({'_id':story_id})
+
 def delete_one(story_id):
     story = get(story_id)
     if story is None:

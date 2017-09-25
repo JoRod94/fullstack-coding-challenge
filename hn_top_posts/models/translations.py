@@ -14,7 +14,8 @@ def delete_one(translation_id):
     if translation is None:
         return None
     else:
-        return db.translations.delete_one({'_id':translation_id})
+        result = db.translations.delete_one({'_id':translation_id})
+        return result
 
 def delete_all():
     for translation in get_all():

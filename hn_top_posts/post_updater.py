@@ -14,9 +14,13 @@ def start_updater():
     updater_thread.start()
 
 def update_top_posts(s):
-    stories.delete_all()
     top_ids = json.loads(requests.get(top_stories_url).content)
     del top_ids[app.config['NR_POSTS']:]
+
+    for story in stories.get_all():
+        if story['_id'] not in top_ids:
+            story.delete_one(story['_id'])
+
     threads = []
     for story_id in top_ids:
         thread = threading.Thread(target=insert_top_story, kwargs={'story_id': story_id})
@@ -29,27 +33,34 @@ def update_top_posts(s):
     s.run()
 
 def insert_top_story(story_id):
-    story = json.loads(requests.get(item_url+str(story_id)+".json").content)
-    story = id_correcter(story)
+    new_story = json.loads(requests.get(item_url+str(story_id)+".json").content)
+    new_story = id_correcter(new_story)
+
+    current_story = stories.get(story_id)
+    if current_story is None:
+        new_story['translation_a'] = request_translation(new_story['title'], app.config['UNBABEL_TRANSLATION_LANG_A'])
+        new_story['translation_b'] = request_translation(new_story['title'], app.config['UNBABEL_TRANSLATION_LANG_B'])
+    else:
+        new_story['translation_a'] = current_story['translation_a']
+        new_story['translation_b'] = current_story['translation_b']
+        stories.delete_one_keep_translations(story_id)
 
     #comments are inserted first to prevent showing the story comments page with incomplete comments
     threads = []
-    if 'kids' in story:
-        for kid_id in story['kids']:
+    if 'kids' in new_story:
+        for kid_id in new_story['kids']:
             thread = threading.Thread(target=insert_comment, kwargs={'comment_id': kid_id})
             threads.append(thread)
             thread.start()
     for t in threads:
         t.join()
 
-    story['translation_a'] = request_translation(story['title'], app.config['UNBABEL_TRANSLATION_LANG_A'])
-    story['translation_b'] = request_translation(story['title'], app.config['UNBABEL_TRANSLATION_LANG_B'])
-    write_result = stories.insert_one(story)
+    write_result = stories.insert_one(new_story)
 
     # Remove comments if story write was unsuccessful
     if not write_result.acknowledged:
-        if 'kids' in story:
-            for kid_id in story['kids']:
+        if 'kids' in new_story:
+            for kid_id in new_story['kids']:
                 comments.delete_one(kid_id)
 
 def insert_comment(comment_id):
